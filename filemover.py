@@ -50,28 +50,27 @@ def connect(config):
     except Exception as ex:
         logging.error(ex)
         print(ex)
+        os._exit(1)
 
 
-def mover(config):
-    listOfFiles = getListOfFiles(config)
+def mover(src,dest,filename):
+    listOfFiles = getListOfFiles(src)
 
     if len(listOfFiles) == 0:
         return
-    src = config[SOURCE]
-    dest = config[DESTINATION]
 
 # only moves first file
     try:
-        print("moving file " + src+'\\'+listOfFiles[0] + " to " +dest+'\\'+config[FILE_NAME])
-        logging.info("moving file " + src+'\\'+listOfFiles[0] + " to " +dest+'\\'+config[FILE_NAME])
-        shutil.move(src+'\\'+listOfFiles[0],dest+'\\'+config[FILE_NAME])
+        print("moving file " + src+'\\'+listOfFiles[0] + " to " +dest+'\\'+filename)
+        logging.info("moving file " + src+'\\'+listOfFiles[0] + " to " +dest+'\\'+filename)
+        shutil.move(src+'\\'+listOfFiles[0],dest+'\\'+filename)
     except Exception as ex:
         logging.info(ex)
         print(ex)
 
 
-def getListOfFiles(config):
-    return os.listdir(config[SOURCE])
+def getListOfFiles(src):
+    return os.listdir(src)
 
 def setLogger():
     # logging.basicConfig(filename = LOG_FILE_NAME , level = logging.INFO)
@@ -94,11 +93,12 @@ if __name__ == "__main__":
     if validate(config) == False:
         print("program exiting")
         logging.info("program exiting")
+        os._exit(1)
 
     print('waiting for files')
     logging.info('waiting for files')
     while True:
-        mover(config)
+        mover(config[SOURCE],config[DESTINATION],config[FILE_NAME])
         time.sleep(10)
 
     raw_input('press enter button to exit\n')
