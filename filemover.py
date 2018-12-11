@@ -113,8 +113,10 @@ if __name__ == "__main__":
     print('waiting for files')
     logging.info('waiting for files')
     while True:
-        if getLogFiles(config[DESTINATION],config[LOG_DESTINATION])
-        mover(config[SOURCE],config[DESTINATION],config[FILE_NAME])
+        if getLogFiles(config[DESTINATION],config[LOG_DESTINATION]):
+            mover(config[SOURCE],config[DESTINATION],config[FILE_NAME])
+            time.sleep(10)
+            continue
         time.sleep(10)
 
     raw_input('press enter button to exit\n')
