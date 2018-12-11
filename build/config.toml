@@ -1,3 +1,0 @@
-source = "\\\\10.80.243.68\\Bloodbank_shared\\order\\Machine1\\Order"
-destination = "\\\\10.80.243.68\\Bloodbank_shared\\order\\Machine1\\Order\\Moved"
-filename = "Import.txt"
