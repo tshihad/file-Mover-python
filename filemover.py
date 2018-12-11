@@ -77,7 +77,11 @@ def setLogger():
     logging.basicConfig(filename = LOG_FILE_NAME, level = logging.INFO,\
     format="%(asctime)s - %(name)s - %(message)s")
 
-if __name__ == "__main__":
+def getLogFiles(logsrc,dest):
+
+    pass
+
+def initializing():
     setLogger()
     print( "initializing program")
     logging.info( "initializing program")
@@ -94,7 +98,12 @@ if __name__ == "__main__":
         print("program exiting")
         logging.info("program exiting")
         os._exit(1)
+    return config
 
+
+if __name__ == "__main__":
+    
+    config = initializing()
     print('waiting for files')
     logging.info('waiting for files')
     while True:
