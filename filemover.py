@@ -12,6 +12,8 @@ FILE_NAME = 'filename'
 CREDENTIALS = 'credentials.toml'
 CONFIG = 'config.toml'
 NETWORK_PATH ='networkPath'
+LOG_DESTINATION = 'logdestination'
+
 
 def validate(config):
     if os.path.isdir(config[SOURCE]) == False:
@@ -77,9 +79,13 @@ def setLogger():
     logging.basicConfig(filename = LOG_FILE_NAME, level = logging.INFO,\
     format="%(asctime)s - %(name)s - %(message)s")
 
-def getLogFiles(logsrc,dest):
-
-    pass
+def getLogFiles(logsrc,loggerdest):
+    files = getListOfFiles(logsrc)
+    for f in files:
+        if f.name().contains("Import.txt_ImportedAt_"):
+            mover(logsrc,loggerdest,f.name())
+            return True
+    return False
 
 def initializing():
     setLogger()
@@ -107,6 +113,7 @@ if __name__ == "__main__":
     print('waiting for files')
     logging.info('waiting for files')
     while True:
+        if getLogFiles(config[DESTINATION],config[LOG_DESTINATION])
         mover(config[SOURCE],config[DESTINATION],config[FILE_NAME])
         time.sleep(10)
 
