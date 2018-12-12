@@ -11,7 +11,7 @@ DESTINATION = 'destination'
 FILE_NAME = 'filename'
 CREDENTIALS = 'credentials.toml'
 CONFIG = 'config.toml'
-NETWORK_PATH ='networkPath'
+NETWORK_PATH = 'networkPath'
 LOG_DESTINATION = 'logdestination'
 
 
@@ -26,6 +26,7 @@ def validate(config):
         logging.error("Destination folder doest exists")
         return False
     return True
+
 
 def read_config(filename):
     if os.path.isfile(filename) == False:
@@ -55,7 +56,7 @@ def connect(config):
         os._exit(1)
 
 
-def mover(src,dest,filename):
+def mover(src, dest, filename):
     listOfFiles = getListOfFiles(src)
 
     if len(listOfFiles) == 0:
@@ -63,9 +64,11 @@ def mover(src,dest,filename):
 
 # only moves first file
     try:
-        print("moving file " + src+'\\'+listOfFiles[0] + " to " +dest+'\\'+filename)
-        logging.info("moving file " + src+'\\'+listOfFiles[0] + " to " +dest+'\\'+filename)
-        shutil.move(src+'\\'+listOfFiles[0],dest+'\\'+filename)
+        print("moving file " + src+'\\' +
+              listOfFiles[0] + " to " + dest+'\\'+filename)
+        logging.info("moving file " + src+'\\' +
+                     listOfFiles[0] + " to " + dest+'\\'+filename)
+        shutil.move(src+'\\'+listOfFiles[0], dest+'\\'+filename)
     except Exception as ex:
         logging.info(ex)
         print(ex)
@@ -74,32 +77,35 @@ def mover(src,dest,filename):
 def getListOfFiles(src):
     return os.listdir(src)
 
+
 def setLogger():
     # logging.basicConfig(filename = LOG_FILE_NAME , level = logging.INFO)
-    logging.basicConfig(filename = LOG_FILE_NAME, level = logging.INFO,\
-    format="%(asctime)s - %(name)s - %(message)s")
+    logging.basicConfig(filename=LOG_FILE_NAME, level=logging.INFO,
+                        format="%(asctime)s - %(name)s - %(message)s")
 
-def getLogFiles(logsrc,loggerdest):
+
+def getLogFiles(logsrc, loggerdest):
     files = getListOfFiles(logsrc)
     for f in files:
-        if f.name().contains("Import.txt_ImportedAt_"):
-            mover(logsrc,loggerdest,f.name())
+        if f.find("Import.txt_ImportedAt_") >= 0:
+            mover(logsrc, loggerdest, f)
             return True
     return False
 
+
 def initializing():
     setLogger()
-    print( "initializing program")
-    logging.info( "initializing program")
+    print("initializing program")
+    logging.info("initializing program")
     credentials = read_config(CREDENTIALS)
     config = read_config(CONFIG)
-    
-    print("connecting to remote " + credentials[NETWORK_PATH]) 
-    logging.info("connecting to remote " + credentials[NETWORK_PATH]) 
+
+    print("connecting to remote " + credentials[NETWORK_PATH])
+    logging.info("connecting to remote " + credentials[NETWORK_PATH])
     connect(credentials)
 
-    print("validating" )
-    logging.info("validating" )
+    print("validating")
+    logging.info("validating")
     if validate(config) == False:
         print("program exiting")
         logging.info("program exiting")
@@ -108,16 +114,16 @@ def initializing():
 
 
 if __name__ == "__main__":
-    
     config = initializing()
     print('waiting for files')
     logging.info('waiting for files')
+    print("waiting for log files in destination")
     while True:
-        if getLogFiles(config[DESTINATION],config[LOG_DESTINATION]):
-            mover(config[SOURCE],config[DESTINATION],config[FILE_NAME])
+        if getLogFiles(config[DESTINATION], config[LOG_DESTINATION]):
+            mover(config[SOURCE], config[DESTINATION], config[FILE_NAME])
             time.sleep(10)
             continue
         time.sleep(10)
+        print("waiting for log files in destination")
 
     raw_input('press enter button to exit\n')
-
