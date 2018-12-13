@@ -97,12 +97,12 @@ def initializing():
     setLogger()
     print("initializing program")
     logging.info("initializing program")
-    credentials = read_config(CREDENTIALS)
+    # credentials = read_config(CREDENTIALS)
     config = read_config(CONFIG)
 
-    print("connecting to remote " + credentials[NETWORK_PATH])
-    logging.info("connecting to remote " + credentials[NETWORK_PATH])
-    connect(credentials)
+    # print("connecting to remote " + credentials[NETWORK_PATH])
+    # logging.info("connecting to remote " + credentials[NETWORK_PATH])
+    # connect(credentials)
 
     print("validating")
     logging.info("validating")
